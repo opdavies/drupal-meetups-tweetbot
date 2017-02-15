@@ -2,8 +2,13 @@
 
 require 'bootstrap/app.php';
 
+$params = [
+    '#drupalmeetups',
+    '#drupalmeetup'
+];
+
 $results = (array) $container['codebird']->search_tweets([
-    'q' => 'drupalmeetups'
+    'q' => implode($params, ' OR '),
 ]);
 
 if (empty($results['statuses'])) {
