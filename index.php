@@ -2,7 +2,14 @@
 
 require 'bootstrap/app.php';
 
-$codebird->setToken($_ENV['TWITTER_ACCESS_TOKEN'], $_ENV['TWITTER_ACCESS_SECRET']);
+$results = (array) $container['codebird']->search_tweets([
+    'q' => 'drupalmeetups'
+]);
 
-$reply = (array) $codebird->statuses_homeTimeline();
-var_dump($reply);
+if (empty($results['statuses'])) {
+    return;
+}
+
+foreach ($results['statuses'] as $status) {
+    $container['codebird']->statuses_retweet_ID(['id' => $status->id]);
+}
