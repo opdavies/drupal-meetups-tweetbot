@@ -15,6 +15,8 @@ $dotenv->required([
     'TWITTER_ACCESS_SECRET'
 ]);
 
+$config = require __DIR__ . '/config.php';
+
 $container = new Container();
 
 $container['codebird'] = function () {
