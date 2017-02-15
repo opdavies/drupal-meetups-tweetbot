@@ -1,0 +1,6 @@
+{
+    "require": {
+        "jublonet/codebird-php": "^3.1",
+        "vlucas/phpdotenv": "^2.4"
+    }
+}
