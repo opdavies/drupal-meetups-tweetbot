@@ -2,6 +2,7 @@
 
 use Codebird\Codebird;
 use Dotenv\Dotenv;
+use Pimple\Container;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -14,6 +15,15 @@ $dotenv->required([
     'TWITTER_ACCESS_SECRET'
 ]);
 
-Codebird::setConsumerKey($_ENV['TWITTER_CONSUMER_KEY'], $_ENV['TWITTER_CONSUMER_SECRET']);
+$container = new Container();
 
-$codebird = Codebird::getInstance();
+$container['codebird'] = function () {
+    Codebird::setConsumerKey($_ENV['TWITTER_CONSUMER_KEY'], $_ENV['TWITTER_CONSUMER_SECRET']);
+
+    $codebird = Codebird::getInstance();
+
+    $codebird->setToken($_ENV['TWITTER_ACCESS_TOKEN'], $_ENV['TWITTER_ACCESS_SECRET']);
+
+    return $codebird;
+};
+
