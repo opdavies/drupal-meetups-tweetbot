@@ -10,14 +10,18 @@ $params[] = implode(array_map(function ($account) {
 
 $params[] = implode($config['hashtags'], ' OR ');
 
-$results = (array) $container['codebird']->search_tweets([
+$response = (array) $container['codebird']->search_tweets([
     'q' => implode($params, ' AND '),
 ]);
 
-if (empty($results['statuses'])) {
+if ($response['httpstatus'] != 200) {
     return;
 }
 
-foreach ($results['statuses'] as $status) {
+if (empty($response['statuses'])) {
+    return;
+}
+
+foreach ($response['statuses'] as $status) {
     $container['codebird']->statuses_retweet_ID(['id' => $status->id]);
 }
