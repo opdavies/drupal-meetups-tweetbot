@@ -10,6 +10,7 @@ return [
     // Which accounts to search for.
     'accounts' => [
         'drupalbristol',
+        'drupalsomerset',
         'opdavies',
         'swdug',
     ],
