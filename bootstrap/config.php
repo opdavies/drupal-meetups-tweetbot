@@ -11,7 +11,12 @@ return [
     'accounts' => [
         'drupalbristol',
         'drupalsomerset',
+        'DrupalSurrey',
+        'DrupalWLondon',
+        'DrupalYorkshire',
+        'nwdug',
         'opdavies',
+        'OxDUG',
         'swdug',
     ],
 ];
