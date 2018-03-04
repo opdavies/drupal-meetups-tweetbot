@@ -109,7 +109,7 @@ class Fetcher
     private function setLastTweet()
     {
         if ($this->statuses->isEmpty()) {
-          return;
+            return;
         }
 
         file_put_contents(
