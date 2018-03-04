@@ -14,7 +14,7 @@ class Fetcher
 
     private $codebird;
 
-    private $params = [];
+    protected $params = [];
 
     /**
      * @var Collection
@@ -56,7 +56,7 @@ class Fetcher
         return collect($this->statuses);
     }
 
-    private function buildParams()
+    protected function buildParams()
     {
         $this->params[] = collect($this->config['accounts'])
             ->map(function (string $account) {
