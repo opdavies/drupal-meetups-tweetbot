@@ -11,11 +11,17 @@ use Symfony\Component\Console\Application;
 $container = new Container();
 
 $container['codebird'] = function () {
-    Codebird::setConsumerKey($_ENV['TWITTER_CONSUMER_KEY'], $_ENV['TWITTER_CONSUMER_SECRET']);
+    Codebird::setConsumerKey(
+        getenv('TWITTER_CONSUMER_KEY'),
+        getenv('TWITTER_CONSUMER_SECRET')
+    );
 
     $codebird = Codebird::getInstance();
 
-    $codebird->setToken($_ENV['TWITTER_ACCESS_TOKEN'], $_ENV['TWITTER_ACCESS_SECRET']);
+    $codebird->setToken(
+        getenv('TWITTER_ACCESS_TOKEN'),
+        getenv('TWITTER_ACCESS_SECRET')
+    );
 
     return $codebird;
 };
