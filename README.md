@@ -19,4 +19,4 @@ MIT
 
 ## Author
 
-- Oliver Davies - PHP Developer
+- [Oliver Davies](https://www.oliverdavi.es) - PHP Developer
