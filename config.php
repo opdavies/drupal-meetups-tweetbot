@@ -3,8 +3,8 @@
 return [
     // Which hashtags to search for.
     'hashtags' => [
-        '#drupalmeetups',
-        '#drupalmeetup'
+        'drupalmeetups',
+        'drupalmeetup',
     ],
 
     // Which accounts to search for.
