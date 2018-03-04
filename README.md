@@ -8,6 +8,11 @@ To make any suggestions to either (e.g. to suggest a new meetup or hashtag) plea
 
 The account that this app posts to is [@drupal_meetups](https://twitter.com/drupal_meetups).
 
+## Usage
+
+- Run `php app.php fetch` to fetch the matching tweets and display them in a table.
+- Run `php app.php run` to fetch the tweets and retweet them.
+
 ## Licence
 
 MIT
