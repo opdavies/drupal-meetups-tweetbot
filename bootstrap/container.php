@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\FetchCommand;
 use App\Console\Commands\RunCommand;
 use App\Tweets\Fetcher;
 use App\Tweets\Tweeter;
@@ -34,6 +35,10 @@ $container['app.tweeter'] = function (Container $container) {
     return new Tweeter($container['codebird']);
 };
 
+$container['app.fetch.command'] = function (Container $container) {
+    return new FetchCommand($container['app.fetcher']);
+};
+
 $container['app.run.command'] = function (Container $container) {
     return new RunCommand(
         $container['app.fetcher'],
@@ -44,6 +49,7 @@ $container['app.run.command'] = function (Container $container) {
 $container['console'] = function ($container) {
     $application = new Application();
 
+    $application->add($container['app.fetch.command']);
     $application->add($container['app.run.command']);
 
     return $application;

@@ -3,6 +3,7 @@
 namespace App\Tweets;
 
 use Codebird\Codebird;
+use stdClass;
 use Tightenco\Collect\Support\Collection;
 
 class Fetcher
@@ -15,9 +16,12 @@ class Fetcher
 
     private $params = [];
 
-    private $statuses = [];
+    /**
+     * @var Collection
+     */
+    private $statuses;
 
-    private $lastTweetId;
+    private $lastTweetId = false;
 
     /**
      * Fetcher constructor.
@@ -29,19 +33,25 @@ class Fetcher
     {
         $this->config = $config;
         $this->codebird = $codebird;
+        $this->statuses = collect();
     }
 
-  /**
-   * Return any relevant tweets.
-   *
-   * @return Collection
-   */
-  public function fetch()
+    /**
+     * Return any relevant tweets.
+     *
+     * @param bool $updateLastId
+     *
+     * @return \Tightenco\Collect\Support\Collection
+     */
+    public function fetch($updateLastId = true)
     {
         $this->buildParams()
             ->getLastTweetId()
-            ->getTweets()
-            ->setLastTweet();
+            ->getTweets();
+
+        if ($updateLastId) {
+            $this->setLastTweet();
+        }
 
         return collect($this->statuses);
     }
@@ -80,20 +90,31 @@ class Fetcher
             'since_id' => $this->lastTweetId,
         ]));
 
-        if ($response->get('httpstatus') !== 200) {
-            $this->statuses = [];
+        if ($response->get('httpstatus') == 200) {
+            $this->statuses = collect($response->get('statuses'))
+                ->map(function (stdClass $tweet) {
+                    return (object) [
+                        'id' => $tweet->id,
+                        'created' => strtotime($tweet->created_at),
+                        'text' => $tweet->text,
+                        'author' => $tweet->user->screen_name,
+                    ];
+                })
+                ->reverse();
         }
-
-        $this->statuses = $response->get('statuses');
 
         return $this;
     }
 
     private function setLastTweet()
     {
+        if ($this->statuses->isEmpty()) {
+          return;
+        }
+
         file_put_contents(
             self::FILENAME,
-            collect($this->statuses)->pluck('id')->last()
+            $this->statuses->pluck('id')->last()
         );
     }
 }
